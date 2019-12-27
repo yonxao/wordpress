@@ -20,16 +20,16 @@
 
 // ** MySQL 设置 - 具体信息来自您正在使用的主机 ** //
 /** WordPress数据库的名称 */
-define( 'DB_NAME', 'wordpress_test' );
+define( 'DB_NAME', 'dbname' );
 
 /** MySQL数据库用户名 */
-define( 'DB_USER', 'wordpress' );
+define( 'DB_USER', 'username' );
 
 /** MySQL数据库密码 */
-define( 'DB_PASSWORD', 'wordpress' );
+define( 'DB_PASSWORD', 'passwd' );
 
 /** MySQL主机 */
-define( 'DB_HOST', '39.107.120.119' );
+define( 'DB_HOST', 'ip' );
 
 /** 创建数据表时默认的文字编码 */
 define( 'DB_CHARSET', 'utf8mb4' );
@@ -46,14 +46,14 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',         '631d0d2f8ddd8955d68b7060256de05b' );
-define( 'SECURE_AUTH_KEY',  '5c06f14e640a19fe3553aa640f735da8' );
-define( 'LOGGED_IN_KEY',    '68e41c22edbaf5e9d7c61f5b24a1bf6a' );
-define( 'NONCE_KEY',        '79322bd2caa800164495dfe09894c992' );
-define( 'AUTH_SALT',        '1604c96f1cfdc9d689d2f44cce4358f7' );
-define( 'SECURE_AUTH_SALT', '815769c5f8b7806ebb073dd73dab8ff7' );
-define( 'LOGGED_IN_SALT',   'b5257e097733ff222e22c00a0055172e' );
-define( 'NONCE_SALT',       '18afa7a808c40ca4b7365f1c72a8feb9' );
+define( 'AUTH_KEY',         '631d0d2f8ddd89551d68b7060256de05b' );
+define( 'SECURE_AUTH_KEY',  '5c06f14e640a19fe13553aa640f735da8' );
+define( 'LOGGED_IN_KEY',    '68e41c22edbaf5e91d7c61f5b24a1bf6a' );
+define( 'NONCE_KEY',        '79322bd2caa8001614495dfe09894c992' );
+define( 'AUTH_SALT',        '1604c96f1cfdc9d6189d2f44cce4358f7' );
+define( 'SECURE_AUTH_SALT', '815769c5f8b7806e1bb073dd73dab8ff7' );
+define( 'LOGGED_IN_SALT',   'b5257e097733ff2212e22c00a0055172e' );
+define( 'NONCE_SALT',       '18afa7a808c40ca41b7365f1c72a8feb9' );
 
 /**#@-*/
 
