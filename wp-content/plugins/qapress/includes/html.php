@@ -52,32 +52,124 @@ function QAPress_list($page = 1)
     $new_url = get_permalink($new_page_id);
     $html .= '</div><div class="q-mobile-ask"><a href="' . esc_url($new_url) . '"><img src="' . QAPress_URI . 'images/edit.png" alt="提问"> 提问</a></div>';
     $html .= '</div><div class="q-topic-wrap"><div class="q-topic-list">';
+    $html .= '<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .q2-topic-item {
+        border-bottom: 1px solid #f0f0f0;
+        background: #fff;
+        padding: 15px 20px;
+        width: 100%;
+        overflow: hidden;
+        line-height: initial;
+    }
+
+    .q2-topic-item > .item-left {
+        float: left;
+        width: 55px;
+        position: relative;
+    }
+
+    .q2-topic-item > .item-right {
+        float: right;
+        width: calc(100% - 55px);
+        padding-left: 20px;
+    }
+
+    .item-left > .reply-count2 {
+        width: 50px;
+        height: 50px;
+
+        color: #017E66;
+        background: rgba(1, 126, 102, 0.08);
+        border: 1px solid rgba(1, 126, 102, 0.16);
+        border-radius: 3px;
+
+        text-align: center;
+        font-size: 16px;
+        padding-top: 2px;
+    }
+
+    .item-right > .reply-user {
+        font-size: 13px;
+        color: #999;
+        margin-bottom: 4px;
+    }
+
+    .item-right > .topic-title-wrapper a {
+        text-decoration: none;
+        color: #666;
+    }
+
+    .item-right > .last-info {
+        margin-top: 4px;
+        font-size: 12px;
+        color: #777;
+    }
+
+    #reply-name{
+        text-indent: 0;
+    }
+</style>';
+
     if ($list) {
+        // 这里循环输出每个帖子
         foreach ($list as $question) {
-            $html .= '<div class="q-topic-item">
-                        <a class="user-avatar" href="javascript:;" data-user="' . $question->post_author . '">
-                            ' . get_avatar($question->post_author, '60') . '
+
+            $html .= '
+            <div class="q2-topic-item">
+            
+               <!--回答及回答数小方框-->
+                <div class="item-left">
+                    <div class="reply-count2" title="回答" 
+                    ' . isCountGreatThan0($question->comment_count) . ' 
+                    >
+                        <span class="count-of-replies" >' . $question->comment_count . '</span>
+                        <p id="reply-name">回答</p>
+                    </div>
+                </div>
+
+                <!--帖子情况，分三行-->
+                <div class="item-right">
+                    <!--1 操作人和最后操作时间-->
+                    <div class="reply-user">
+                        <!--最后操作人，以后在添加-->
+                        <!--最后操作时间-->
+                        <span class="last-active-time">' . QAPress_format_date(get_post_modified_time('U', false, $question->ID)) . '</span>
+                    </div>
+                    <!--2 标题-->
+                    <div class="topic-title-wrapper">
+                    ' . ' 
+                        <a class="topic-title" href="' . get_permalink($question->ID) . '" title="' . esc_attr(get_the_title($question->ID)) . '" target="_blank">
+                            ' . get_the_title($question->ID) . '
                         </a>
-                        <div class="reply-count">
-                            <span class="count-of-replies" title="回复数">' . $question->comment_count . '</span>
-                            <span class="count-seperator">/</span>
-                            <span class="count-of-visits" title="点击数">' . ($question->views ? $question->views : 0) . '</span>
-                        </div>
-                        <div class="topic-title-wrapper">' . ($question->menu_order == 1 ? '<span class="put-top">置顶</span>' : '<span class="topiclist-tab">' . QAPress_category($question) . '</span>')
-                . ' <a class="topic-title" href="' . get_permalink($question->ID) . '" title="' . esc_attr(get_the_title($question->ID)) . '" target="_blank">' . get_the_title($question->ID) . '</a>
-                            </div>
-                        <div class="last-time">';
-            if ($question->post_mime_type) $html .= '<a class="last-time-user" href="' . get_permalink($question->ID) . '#answer" target="_blank">
-                                ' . get_avatar($question->post_mime_type, '60') . '
-                            </a>';
-            $html .= '<span class="last-active-time">' . QAPress_format_date(get_post_modified_time('U', false, $question->ID)) . '</span>
-                        </div></div>';
+                    </div>
+                    <!--3 分类标签，浏览量-->
+                    <div class="last-info">
+                    ' . ($question->menu_order == 1 ? '
+                        <span class="put-top">置顶</span>
+                    ' : '
+                        <span class="topiclist-tab">' . QAPress_category($question) . '</span>
+                    ') . '
+                        <span class="count-of-visits"><i class="fa fa-eye"></i> ' . ($question->views ? $question->views : 0) . '浏览</span>
+                    </div>                        
+                </div>
+            </div>';
         }
     } else {
         $html .= '<div class="q-topic-item"><p style="padding: 10px;margin: 0;text-align: center;color:#888;">暂无内容</p></div>';
     }
     $html .= '</div>' . QAPress_pagination($per_page, $page, $current_cat) . '</div></div>';
     return $html;
+}
+
+function isCountGreatThan0($countNum)
+{
+    return $countNum == 0 ? 'style="color: #AD3A37; background: rgba(173,58,55, 0.08); border: 1px solid rgba(173,58,55, 0.16);"' : null;
 }
 
 function QAPress_single()
